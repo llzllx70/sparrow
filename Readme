@@ -1,0 +1,13 @@
+1. 20210430
+example的torch示例，指出问题
+此处可修改为使用纯手工的方式
+
+2. 20210506
+example 使用Tensor autograd 跑通
+
+3. 20210507
+全部使用Tensor
+添加操作符重载
+
+4. 20210526
+support autograd function
