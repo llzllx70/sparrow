@@ -11,3 +11,10 @@ example 使用Tensor autograd 跑通
 
 4. 20210526
 support autograd function
+function已经封装
+
+5. 20210531
+引入Linear, 将多个weight和bias封装起来
+
+6. todo
+考虑将weight 和 x 设计成向量和矩阵

@@ -116,6 +116,7 @@ class Tensor(object):
                 mul_backward.next_functions.append([other.grad_fn, self.data])
 
         requires_grad = self.check_requires_grad(other)
+        # v = np.matmul(self.data, other.data)
         v = self.data * other.data
         variable = Tensor(v, requires_grad=requires_grad)
         variable.grad_fn = mul_backward
@@ -124,73 +125,6 @@ class Tensor(object):
     def backward(self):
         if self.grad_fn is not None:
             self.grad_fn.run(np.array([1]))
-
-
-class F3Backward(object):
-
-    def __init__(self):
-        self.next_functions = []
-
-    def run(self, input_):
-        for f in self.next_functions:
-            if f[0] is not None:
-                f[0].run(f[1] * input_)
-
-
-class FBase:
-
-    def forward(self):
-        f3_backward = F3Backward()
-        f3_backward.next_functions.append([self.input.grad_fn, np.array([3])])
-
-        v = self.input.data * np.array([3])
-        variable = Tensor(v, requires_grad=True)
-        variable.grad_fn = f3_backward
-        return variable
-
-    def forward2(self):
-        f3_backward = F3Backward()
-        f3_backward.next_functions.append([self.input.grad_fn, np.array([2]) * self.input.data])
-
-        v = self.input.data * self.input.data
-        variable = Tensor(v, requires_grad=True)
-        variable.grad_fn = f3_backward
-        return variable
-
-
-class F3(FBase):
-
-    def __init__(self, input_):
-        self.input = input_
-
-    def forward(self):
-        return
-        f3_backward = F3Backward()
-        f3_backward.next_functions.append([self.input.grad_fn, np.array([3])])
-
-        v = self.input.data * np.array([3])
-        variable = Tensor(v, requires_grad=True)
-        variable.grad_fn = f3_backward
-        return variable
-
-    def forward2(self):
-        f3_backward = F3Backward()
-        f3_backward.next_functions.append([self.input.grad_fn, np.array([2]) * self.input.data])
-
-        v = self.input.data * self.input.data
-        variable = Tensor(v, requires_grad=True)
-        variable.grad_fn = f3_backward
-        return variable
-
-    def forward2_2(self):
-        v = self.input.data * self.input.data
-        variable = Tensor(v, requires_grad=True)
-        variable.grad_fn = f3_backward
-        return variable
-
-    def backward2_2(self):
-        f3_backward = F3Backward()
-        f3_backward.next_functions.append([self.input.grad_fn, np.array([2]) * self.input.data])
 
 
 class AccumulateGrad(object):

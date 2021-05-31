@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append('./')
 
-from common_4 import *
+from function import *
 
 # Create random input and output data
 x1 = np.linspace(-math.pi, math.pi, 2000)
@@ -28,7 +28,7 @@ d = Tensor(np.array([0.3]), requires_grad=True)
 learning_rate = 5e-6
 for t in range(2000):
     y_pred = a + b * LegendrePolynomial3().apply(c + d * x)
-    square_ = (y_pred - y) * (y_pred - y)
+    square_ = Square().apply(y_pred - y)
 
     square_.backward()
 
